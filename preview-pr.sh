@@ -1,23 +1,40 @@
 #!/bin/bash
 #
 # This script loads a HTML preview of a book to the aap-builds repo
+# 
+# PREREQUISITE 1: Create an aap-builds repo in your github instance.
+# You can fork Aine's copy from https://github.com/ariordan-redhat/aap-builds if you like,
+# then clone your fork using the following command:
+# git clone https://github.com/<your_github_id>/aap-builds
 #
-# To operate this script, run the following command from the /titles directory in your AAP docs repo:
-# preview-pr.sh <PR-number>
+# PREREQUISITE 2:
+# Modify the aapbuildsurl and aapbuildspath in the script - these are labelled PREREQUISITE.
+# 
+# PREREQUISITE 3:
+# Build a doc using asciidoctor. 
+# that you have added the images to your aap-builds repo if you need them.
+#
+# To operate this script, run the following command from the downstream/titles/title-name directory
+# in your AAP docs repo (for example, downstream/titles/aap-installation-guide):
+# preview-pr.sh
 #
 # Example command:
-# preview-pr 801
+# preview-pr
+#
+# The script copies master.html 
 #
 ###########################################################
 #
+# PREREQUISITE: Configure the URL for your aap-builds repo
 aapbuildsurl=https://ariordan-redhat.github.io/aap-builds
+# PREREQUISITE: Configure the path to your local copy of aap-builds repo
 aapbuildspath=/Users/ariordan/repos/aap-builds
+#
 sourcebranch=$(git symbolic-ref --short HEAD)
 sourcepath=$(pwd)
 sourcedir=$(basename $sourcepath)
 sourcefile=$(ls -d -1 $sourcepath/master.html)
 builddate=$(date -I)
-### branch=($1)
 targetfile=$(echo "$sourcedir-$sourcebranch-$builddate.html")
 targetpath=$(echo "$aapbuildspath/docs/$targetfile")
 targetreadme=$(echo "$aapbuildspath/README.md")
@@ -39,7 +56,7 @@ cp master.html $targetpath
 ls -t $targetpath
 
 pushd $aapbuildspath
-echo "$targeturl" >> $targetreadme
+echo "* $targeturl" >> $targetreadme
 git status
 git add $targetpath
 git add $targetreadme
@@ -48,10 +65,4 @@ git commit -m "$commitmessage"
 git log --oneline -n 2
 git push origin HEAD
 popd
-# List all master.adoc files
-# clean up temporary files
-## rm tmp.docx
-## rm atree-output.docx
-## rm used-modules.docx
-## rm all-modules.docx
-# rm *.bak
+
