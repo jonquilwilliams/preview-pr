@@ -26,9 +26,9 @@
 ###########################################################
 #
 # PREREQUISITE: Configure the URL for your aap-builds repo
-aapbuildsurl=https://ariordan-redhat.github.io/aap-builds
+aapbuildsurl=https://jonquilwilliams.github.io/aap-builds
 # PREREQUISITE: Configure the path to your local copy of aap-builds repo
-aapbuildspath=/Users/ariordan/repos/aap-builds
+aapbuildspath=/Users/jonwilli/repos/aap-builds
 #
 sourcebranch=$(git symbolic-ref --short HEAD)
 sourcepath=$(pwd)
